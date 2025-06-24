@@ -8,23 +8,50 @@
 import SwiftUI
 
 struct ListView: View {
-    @State var items = [
-        ItemModel(title: "First thing to do", isCompleted: false),
-        ItemModel(title: "Second thing to do", isCompleted: true),
-        ItemModel(title: "Third thing to do", isCompleted: true),
-    ]
+    @EnvironmentObject var listViewModel: ListViewModel
+  
     var body: some View {
-        List {
-            ForEach(items) { item in
-                ListRowView(itemModel: item)
+        ZStack {
+            if listViewModel.items.isEmpty {
+               NoItemView()
+            } else {
+                List {
+                    ForEach(Array(listViewModel.items.enumerated()), id: \.element.id) { index, item in
+                        ListRowView(itemModel: item)
+                            .contextMenu(menuItems: {
+                                Button(item.isCompleted ? "Unset as completed ❌" : "Set as completed ✅") {
+                                    listViewModel.updateCompletedState(for: index)
+                                }
+                                Button(item.isHighlited ? "Unhighlight 🔴" : "Highlight 🧷") {
+                                    listViewModel.updateHighlitedState(for: index)
+                                }
+                            })
+                            .onTapGesture(perform: {
+                                withAnimation {
+                                    listViewModel.updateCompletedState(for: index)
 
+                                }
+                            })
+                            .swipeActions(edge: .leading, allowsFullSwipe: false) {
+                                Button("Highlight") {
+                                    listViewModel.updateHighlitedState(for: index)
+                                }
+                                .tint(.green)
+                            }
+                    }
+                    .onMove(perform: listViewModel.moveItem)
+                    .onDelete(perform: listViewModel.deleteListItem)
+                  
+                }
             }
         }
+      
         .navigationTitle("To Do List 📋")
         .toolbar {
             
             ToolbarItem(placement: .topBarLeading) {
-                NavigationLink("Edit", destination: Text("Destination"))
+//                NavigationLink("Edit", destination: Text("Destination"))
+                EditButton()
                     
             }
             
@@ -39,7 +66,10 @@ struct ListView: View {
 }
 
 #Preview {
+    @StateObject var listViewModel: ListViewModel = ListViewModel()
+
     NavigationView {
         ListView()
     }
+    .environmentObject(listViewModel)
 }
