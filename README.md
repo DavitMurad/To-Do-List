@@ -1,4 +1,9 @@
 # To-Do-List
+
+### Demo 🎥 
+https://github.com/user-attachments/assets/c7dd4cbc-dd89-4208-9a0f-2dec57a104a2
+
+### About 🤌
 Yes... another to-do app. But before you roll your eyes, this one had a purpose(at least for me).
 This project is a small scaled yet comprehensive revisit of my SwiftUI and MVVM fundamentals. I built it as a focused exercise to consolidate what I have recently been exploring: clean architecture, reactive design patterns, and local data persistence.
 
