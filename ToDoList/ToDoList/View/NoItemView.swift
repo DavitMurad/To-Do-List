@@ -12,7 +12,6 @@ struct NoItemView: View {
     var body: some View {
         ScrollView {
             VStack {
-                
                 Text("There are no items")
                     .font(.title)
                     .fontWeight(.semibold)
@@ -37,9 +36,10 @@ struct NoItemView: View {
 
             }
             .toolbar(.hidden)
-            .padding(.vertical, 30)
+            .padding(.vertical, (UIScreen.main.bounds.height / 2) - 180)
             .onAppear(perform: addAnimate)
         }
+        
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         
     }

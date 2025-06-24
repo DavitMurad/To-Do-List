@@ -33,6 +33,7 @@ struct ListView: View {
                                 }
                             })
                             .swipeActions(edge: .leading, allowsFullSwipe: false) {
+                                
                                 Button("Highlight") {
                                     listViewModel.updateHighlitedState(for: index)
                                 }
